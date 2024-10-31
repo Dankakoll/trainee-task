@@ -32,7 +32,7 @@ func findLastDir(dir []fs.DirEntry) int {
 func fileInfo(file fs.DirEntry, printFiles bool) string {
 	info, _ := file.Info()
 	fileinfo := ""
-	if !strings.Contains(info.Name(), ".") {
+	if info.IsDir() {
 		fileinfo = info.Name()
 	} else if printFiles {
 		checksize := info.Size()
@@ -46,7 +46,7 @@ func fileInfo(file fs.DirEntry, printFiles bool) string {
 	return fileinfo
 }
 func checkIgnored(dir []fs.DirEntry) []fs.DirEntry {
-	Ignored := []string{".DS_Store"}
+	Ignored := []string{".DS_Store", ".git"}
 	for i, f := range dir {
 		for _, s := range Ignored {
 			if strings.Contains(fs.FormatDirEntry(f), s) {
